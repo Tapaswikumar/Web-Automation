@@ -151,7 +151,7 @@ public class XlsxReader {
 	}
 
 	// convert the cell values to string to be used by all returning functions
-	private String cellToString(Cell cell) {
+	public String cellToString(Cell cell) {
 		switch (cell.getCellType()) {
 		case NUMERIC:
 			return ((int) cell.getNumericCellValue() + "");

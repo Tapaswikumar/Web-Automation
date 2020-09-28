@@ -48,7 +48,8 @@ public class XlsxWriter {
 				row = sheet.getRow(0);
 				for (int i = 1; i < row.getLastCellNum(); i++) {
 					cell = row.getCell(i, MissingCellPolicy.CREATE_NULL_AS_BLANK);
-					if (cellToString(cell).equals(columnheader)) {
+					XlsxReader reader = new XlsxReader(path);
+					if (reader.cellToString(cell).equals(columnheader)) {
 						columnindex = i;
 					}
 				}
@@ -86,15 +87,15 @@ public class XlsxWriter {
 				columnindex = sheetreader.getColumnIndex(sheetname, columnheader);
 				if (columnindex == -1) {
 					row = sheet.getRow(0);
-					cell=row.createCell(row.getLastCellNum());
+					cell = row.createCell(row.getLastCellNum());
 					cell.setCellValue(columnheader);
 					fout = new FileOutputStream(path);
 					workbook.write(fout);
 					fout.close();
-					columnindex = row.getLastCellNum()-1;
+					columnindex = row.getLastCellNum() - 1;
 				}
-				for(int i=1;i<=sheet.getLastRowNum();i++) {
-					row=sheet.getRow(i);
+				for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+					row = sheet.getRow(i);
 					if (row == null) {
 						row = sheet.createRow(i);
 					}
@@ -102,7 +103,7 @@ public class XlsxWriter {
 					if (cell == null) {
 						cell = row.createCell(columnindex);
 					}
-					cell.setCellValue(columndata[i-1]);
+					cell.setCellValue(columndata[i - 1]);
 					fout = new FileOutputStream(path);
 					workbook.write(fout);
 					fout.close();
@@ -115,22 +116,22 @@ public class XlsxWriter {
 		}
 	}
 
-	public boolean setRowData(String sheetname, int rownum,ArrayList<String> rowdata) throws IOException {
-		rownum=rownum-1;
+	public boolean setRowData(String sheetname, int rownum, ArrayList<String> rowdata) throws IOException {
+		rownum = rownum - 1;
 		XlsxReader sheetreader = new XlsxReader(path);
 		try {
 			if (!sheetreader.isSheetExist(sheetname)) {
 				throw new NullPointerException("Sheet not found");
 			} else {
-				sheet=workbook.getSheet(sheetname);
-				row=sheet.getRow(rownum);
-				if(row==null) {
-					row=sheet.createRow(rownum);
+				sheet = workbook.getSheet(sheetname);
+				row = sheet.getRow(rownum);
+				if (row == null) {
+					row = sheet.createRow(rownum);
 				}
-				for(int i=0;i<rowdata.size();i++) {
-					cell=row.getCell(i);
-					if(cell==null) {
-						cell=row.createCell(i);
+				for (int i = 0; i < rowdata.size(); i++) {
+					cell = row.getCell(i);
+					if (cell == null) {
+						cell = row.createCell(i);
 					}
 					cell.setCellValue(rowdata.get(i));
 					fout = new FileOutputStream(path);
@@ -139,14 +140,13 @@ public class XlsxWriter {
 				}
 				return true;
 			}
-			
+
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
-	
+
 	public boolean addSheet(String sheetname) {
 		FileOutputStream fOut;
 		try {
@@ -177,19 +177,6 @@ public class XlsxWriter {
 			return false;
 		}
 		return true;
-	}
-
-	private String cellToString(Cell cell) {
-		switch (cell.getCellType()) {
-		case NUMERIC:
-			return ((int) cell.getNumericCellValue() + "");
-		case STRING:
-			return cell.getStringCellValue();
-		case BLANK:
-			return "";
-		default:
-			return "Not a valid data type";
-		}
 	}
 
 }
