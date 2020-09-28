@@ -199,7 +199,6 @@ public class XlsxReader {
 		return columnindex;
 	}
 	/*
-	 * MethodsTo be added...... getColumnCount and getCellData(method overloading)
-	 * based on sheet name,row number and column header
+	 * MethodsTo be added...... getColumnCount and getCellData(method overloading) based on sheet name,row number and column header
 	 */
 }
