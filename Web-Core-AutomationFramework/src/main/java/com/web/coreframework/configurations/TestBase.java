@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import com.web.coreframework.utils.testutils.TestUtil;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class TestBase {
 	public static WebDriver driver;
@@ -30,11 +29,9 @@ public class TestBase {
 	public static void setUp() {
 		String browser=prop.getProperty("browser");
 		if(browser.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
 			driver=new ChromeDriver();
 		}
 		else {
-			WebDriverManager.firefoxdriver().setup();
 			driver= new FirefoxDriver();
 		}
 		driver.manage().window().maximize();
